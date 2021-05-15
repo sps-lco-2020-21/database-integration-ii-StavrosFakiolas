@@ -17,6 +17,32 @@ namespace DatabaseIntegration.CommandLine
 
             MovieDatabase md = new MovieDatabase(cxnstring.ConnectionString);
 
+            string movieName = Console.ReadLine();
+            DataSet movieMatches = md.GetMeSomeData($"select id from movies where title = '{movieName}';");
+            if(movieMatches.Tables[0].Rows.Count > 0)
+            {
+                long reviewerID;
+                string reviewerName = Console.ReadLine();
+                DataSet reviewerMatches = md.GetMeSomeData($"select id from Reviewers where name = '{reviewerName}';");
+                if(reviewerMatches.Tables[0].Rows.Count > 0)
+                {
+                    var data = reviewerMatches.Tables[0].Rows[0]["id"];
+                    reviewerID = (long)data;
+                    Console.WriteLine(reviewerID);
+                }
+            }
+            else
+                Console.WriteLine("movie doesnt exist");
+            Console.ReadKey();
+            
+            
+            
+            
+            
+            
+            
+            
+            
             foreach (string s in md.MoviesByRating(5))
             {
                 Console.WriteLine(s);
